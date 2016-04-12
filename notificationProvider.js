@@ -87,8 +87,7 @@ var notificationProvider = (function() {
 	 * @returns {Object} icon The interface to the notificationFactory
 	 */
 	function notificationFactory(icon, options) {
-		var options = options || {},
-		vibration = options.vibration,
+		var vibration = options.vibration,
 		handler = {
 			onShow : options.onshow,
 			onClick : options.onclick,
@@ -105,8 +104,8 @@ var notificationProvider = (function() {
 		 * @params {object} options Specify optional parameters
 		 * @returns {Notification} a notification instance
 		 */
-		function notify(title, options) {
-			var options = options || {},
+		function notify(title, opts) {
+			var options = opts || {},
 			currentPageTitle = document.title;
 
 			// if vibrate API && vibration duration specified in factory creation
@@ -142,11 +141,11 @@ var notificationProvider = (function() {
 			 * @params {object} options Specify optional parameters
 			 * @returns {Notification} a notification instance
 			 */
-			function sendNotification(title, options) {
-				var options = options || {},
-					body = options.body || '',
-					tags = options.tags || '',
-					data = options.data || {};
+			function sendNotification(title, opts) {
+				var options = opts || {},
+				body = options.body || '',
+				tags = options.tags || '',
+				data = options.data || {},
 				notification = new notifications(title, {
 					icon: icon,
 					body: body,
@@ -167,6 +166,7 @@ var notificationProvider = (function() {
 	return {
 		preferences: preferences,
 		isHidden: isHidden,
+		hasStorage: hasStorage,
 		isNotifiable: isNotifiable,
 		notificationFactory: notificationFactory,
 		toggleNotifications: toggleNotifications
