@@ -87,7 +87,7 @@ var notificationProvider = (function() {
 	 * @returns {Object} icon The interface to the notificationFactory
 	 */
 	function notificationFactory(icon, opts) {
-		var options = opts || {}, 
+		var options = opts || {},
 		vibrationPattern = options.vibrationPattern,
 		handler = {
 			onShow : options.onshow,
@@ -111,7 +111,7 @@ var notificationProvider = (function() {
 
 			// if vibrate API && vibration duration specified in factory creation
 			if(vibrate && vibrationPattern) {
-				vibrate(vibration);
+				vibrate(vibrationPattern);
 			}
 
 			// if Page Visibility API
