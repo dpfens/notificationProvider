@@ -15,7 +15,7 @@ var notificationProvider = (function() {
 		localStorage.setItem("notifications", preferences.notifications.toString() );
 
 		// request permission for Notifications if supported, Notifications are toggled, and permissions hasn't already been obtained
-		if (notifications && preferences.notifications && (notifications.permission === "default" || notifications.permission === "denied")) {
+		if (notifications && preferences.notifications && (notifications.permission === "default" || notifications.permission === "denied" || (notifications.checkPermission && notifications.checkPermission() != 0 ) ) ) {
 			notifications.requestPermission();
 		}
 	}
@@ -91,6 +91,7 @@ var notificationProvider = (function() {
 		vibrationPattern = options.vibrationPattern,
 		handler = {
 			onShow : options.onshow,
+			onDisplay: options.ondisplay,
 			onClick : options.onclick,
 			onClose : options.onclose,
 			onError : options.onerror,
@@ -133,10 +134,10 @@ var notificationProvider = (function() {
 				document.addEventListener("visibilitychange", messageSeen);
 			}
 			// create new Notification if supported
-			if (notifications && preferences.notifications && notifications.permission === "granted") {
+			if (notifications && preferences.notifications && (notifications.permission === "granted" || notifications.checkPermission && notifications.checkPermission() == 0 ) ) {
 				return sendNotification(title, options);
 			}
-			return null;
+			return;
 			/*
 			 * @params {string} title Specify title of notification
 			 * @params {object} options Specify optional parameters
@@ -147,13 +148,20 @@ var notificationProvider = (function() {
 				body = options.body || '',
 				tags = options.tags || '',
 				data = options.data || {},
-				notification = new notifications(title, {
-					icon: icon,
-					body: body,
-					tags: tags,
-					data: data
-				});
+				notification;
+				if(notifications.createNotification) {
+					notification = notifications.createNotification(icon, title, body);
+					notification.show();
+				} else {
+					notification = new notifications(title, {
+						icon: icon,
+						body: body,
+						tags: tags,
+						data: data
+					});
+				}
 				notification.onerror = handler.onError;
+				notification.ondisplay = handler.onDisplay;
 				notification.onshow = handler.onShow;
 				notification.onclick = handler.onClick;
 				notification.onclose = handler.onClose;
