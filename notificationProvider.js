@@ -86,8 +86,9 @@ var notificationProvider = (function() {
 	 * @params {string} icon Specify the URL of the icon for notifications
 	 * @returns {Object} icon The interface to the notificationFactory
 	 */
-	function notificationFactory(icon, options) {
-		var vibration = options.vibration,
+	function notificationFactory(icon, opts) {
+		var options = opts || {}, 
+		vibrationPattern = options.vibrationPattern,
 		handler = {
 			onShow : options.onshow,
 			onClick : options.onclick,
@@ -109,7 +110,7 @@ var notificationProvider = (function() {
 			currentPageTitle = document.title;
 
 			// if vibrate API && vibration duration specified in factory creation
-			if(vibrate && vibration) {
+			if(vibrate && vibrationPattern) {
 				vibrate(vibration);
 			}
 
