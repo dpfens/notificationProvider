@@ -1,11 +1,10 @@
 "use strict";
 var notificationProvider = (function() {
 	var notifications = isNotifiable(),
-	vibrate = navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate,
-
 	preferences = {
 		notifications: localStorage.getItem("notifications") === "true" || false,
 	};
+	navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
 	/*
 	 * @returns {void} toggles User preferences for Notifications
@@ -111,8 +110,8 @@ var notificationProvider = (function() {
 			currentPageTitle = document.title;
 
 			// if vibrate API && vibration duration specified in factory creation
-			if(vibrate && vibrationPattern) {
-				vibrate(vibrationPattern);
+			if(navigator.vibrate && vibrationPattern) {
+				navigator.vibrate(vibrationPattern);
 			}
 
 			// if Page Visibility API
@@ -148,7 +147,7 @@ var notificationProvider = (function() {
 				body = options.body || '',
 				tags = options.tags || '',
 				data = options.data || {},
-				notification;
+				notification = null;
 				if(notifications.createNotification) {
 					notification = notifications.createNotification(icon, title, body);
 					notification.show();
