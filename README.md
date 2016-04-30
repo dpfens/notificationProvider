@@ -12,8 +12,8 @@ notificationProvider is a simple script for JS Web Notifications.  The script in
 
 ## API
 * `preferences` - an Object containing the user's preferences for notifications
-* isHidden() - Check if the page is currently visible on the user's screen
-* hasStorage() - Check if the user's browser support `LocalStorage` or `SessionStorage`
-* isNotifiable() - Check if the user's browser supports Web Notifications
-* NotificationFactory(icon, options) - Instantiated a factory to send types of notifications. The icon string must be a URL of the icon for the Web Notifications. The `options` Object can contain a `vibrationPattern`, or  `onclick`, `onshow`, `ondisplay`, `onclose`, or `onerror` function that will be attached to all notifications created from that factory instance
-* toggleNotifications - Toggles user user's preferences to receive notifications.
+* `isHidden()` - Check if the page is currently visible on the user's screen
+* `hasStorage()` - Check if the user's browser support `LocalStorage` or `SessionStorage`
+* `isNotifiable()` - Check if the user's browser supports Web Notifications
+* `NotificationFactory(icon, options)` - Instantiated a factory to send types of notifications. The icon string must be a URL of the icon for the Web Notifications. The `options` Object can contain a `vibrationPattern`, or  `onclick`, `onshow`, `ondisplay`, `onclose`, or `onerror` function that will be attached to all notifications created from that factory instance
+* `toggleNotifications()` - Toggles user user's preferences to receive notifications.
