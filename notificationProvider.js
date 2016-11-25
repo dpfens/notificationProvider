@@ -1,5 +1,5 @@
 "use strict";
-var notificationProvider = (function() {
+(function(w) {
 	var notifications = isNotifiable(),
 	preferences = {
 		notifications: localStorage.getItem("notifications") === "true" || false,
@@ -9,7 +9,7 @@ var notificationProvider = (function() {
 	/*
 	 * @returns {void} toggles User preferences for Notifications
 	 */
-	function toggleNotifications() {
+	function toggle() {
 		preferences.notifications = !preferences.notifications;
 		localStorage.setItem("notifications", preferences.notifications.toString() );
 
@@ -30,7 +30,7 @@ var notificationProvider = (function() {
 	}
 
 	/*
-	 * @returns {string} the browser name of the Page Visibility API, or null
+	 * @returns {string} the browser's property name of the Page Visibility API, or null
 	 */
 	function getHiddenProp() {
 		var prefixes = ['webkit', 'moz', 'ms', 'o'];
@@ -54,7 +54,7 @@ var notificationProvider = (function() {
 		var prop = getNotificationProp();
 		if (!prop) return false;
 
-		return window[prop];
+		return w[prop];
 	}
 
 	/*
@@ -64,17 +64,17 @@ var notificationProvider = (function() {
 		return typeof Storage !== "undefined";
 	}
 	/*
-	 * @returns {string} the browser name of the Notifications API, or null
+	 * @returns {string} the browser's property name of the Notifications API, or null
 	 */
 	function getNotificationProp() {
 		var prefixes = ['webkit', 'moz', 'ms', 'o'];
 
 		// if 'hidden' is natively supported just return it
-		if ('Notification' in window) return 'Notification';
+		if ('Notification' in w) return 'Notification';
 
 		// otherwise loop over all the known prefixes until we find one
 		for (var i = 0; i < prefixes.length; i++) {
-			if ((prefixes[i] + 'Notification') in window)
+			if ((prefixes[i] + 'Notification') in w)
 				return prefixes[i] + 'Notification';
 		}
 		// otherwise it's not supported
@@ -85,7 +85,7 @@ var notificationProvider = (function() {
 	 * @params {string} icon Specify the URL of the icon for notifications
 	 * @returns {Object} icon The interface to the notificationFactory
 	 */
-	function notificationFactory(icon, opts) {
+	function Factory(icon, opts) {
 		var options = opts || {},
 		vibrationPattern = options.vibrationPattern,
 		handler = {
@@ -171,12 +171,8 @@ var notificationProvider = (function() {
 
 	}
 
-	return {
-		preferences: preferences,
-		isHidden: isHidden,
-		hasStorage: hasStorage,
-		isNotifiable: isNotifiable,
-		notificationFactory: notificationFactory,
-		toggleNotifications: toggleNotifications
+	w.notificationProvider = {
+		Factory: Factory,
+		toggle: toggle
 	};
-})();
+})(window);
