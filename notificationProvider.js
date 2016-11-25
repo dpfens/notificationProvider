@@ -136,7 +136,7 @@
 			if (notifications && preferences.notifications && (notifications.permission === "granted" || notifications.checkPermission && notifications.checkPermission() == 0 ) ) {
 				return sendNotification(title, options);
 			}
-			return;
+			return null;
 			/*
 			 * @params {string} title Specify title of notification
 			 * @params {object} options Specify optional parameters
